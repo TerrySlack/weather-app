@@ -2,10 +2,9 @@ import { useState, ChangeEvent, MouseEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectAllCities,
-  selectError,
+  // selectError,
   selectLoading,
   selectSelectedCity,
-  selectStatus,
 } from "Selectors/selectors";
 import { throttledFetchData } from "Store/slices/cityWeatherSlice";
 import { AppDispatch } from "Store/store";
@@ -14,17 +13,15 @@ import { CitySearch } from "Components/CitySearch";
 import { CityDetails } from "Components/CityDetails";
 import { CityButtons } from "Components/CityButtons";
 
-const HomeContainer = () => {
+function HomeContainer() {
   const [city, setCity] = useState<string>("");
   const dispatch = useDispatch<AppDispatch>();
   const allCities = useSelector(selectAllCities);
   const selectedCity = useSelector(selectSelectedCity);
-  //const cityData = useSelector(selectCityData);
   const loading = useSelector(selectLoading);
-  const status = useSelector(selectStatus);
-  const error = useSelector(selectError);
+  // const error = useSelector(selectError);
 
-  //Select the text in an input box, on focus
+  // Select the text in an input box, on focus
   const { ref, onFocus } = useHighlightOnFocus();
 
   const citySearchFetchError = false;
@@ -33,15 +30,15 @@ const HomeContainer = () => {
     e.preventDefault();
     dispatch(throttledFetchData(city));
   };
+
   const onPreviouslySelectedCityClick =
     (previousCity: string) => (e: MouseEvent<HTMLElement>) => {
       e.preventDefault();
       setCity(previousCity);
-      console.log(`previous city: ${previousCity}`);
       dispatch(throttledFetchData(previousCity));
     };
 
-  //TODO:  Debounce this
+  // TODO:  Debounce this
   const onCitySearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setCity(value);
@@ -70,6 +67,6 @@ const HomeContainer = () => {
       )}
     </div>
   );
-};
+}
 
 export { HomeContainer as Home };
